@@ -211,30 +211,115 @@ body {
 .value-strip {
   display: flex;
   justify-content: center;
-  gap: 3.5rem;
-  padding: 2.8rem 1.5rem 3.2rem;
-  background: radial-gradient(circle at top, #020617, #020617 45%, #020617);
+  gap: 6rem;
+  padding: 3.8rem 2rem 4.2rem;
+  background: radial-gradient(circle at top, #020617, #020617 40%, #020617);
   color: var(--text-main);
 }
 
 .value-item {
   text-align: center;
-  min-width: 80px;
+  min-width: 110px;
 }
 
 .value-number {
   display: block;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #bbf7d0;
-  text-shadow: 0 0 18px rgba(190, 242, 100, 0.7);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #bef264; /* samma gröna som 'Ditt verktyg' */
+  text-shadow: 0 0 22px rgba(190, 242, 100, 0.85);
 }
 
 .value-label {
   display: block;
-  margin-top: 0.2rem;
-  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
   color: var(--text-soft);
+}
+
+.feature-section {
+  padding: 4.2rem 1.5rem 4.8rem;
+  background-color: #020617;
+  color: var(--text-main);
+}
+
+.feature-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 3rem;
+}
+
+.feature-header h2 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.9rem, 3vw, 2.3rem);
+}
+
+.feature-header h2 .highlight {
+  color: #bef264;
+  text-shadow: 0 0 18px rgba(190, 242, 100, 0.7);
+}
+
+.feature-header p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+.feature-grid {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.feature-image-wrapper {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+}
+
+.feature-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.feature-card {
+  background: radial-gradient(circle at top left, #020617, #020617 60%);
+  border-radius: 18px;
+  padding: 2rem 2.1rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.85);
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 16px;
+  background: radial-gradient(circle at top, rgba(22, 163, 74, 0.7), #052e16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.feature-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+}
+
+.feature-card p {
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--text-soft);
+  line-height: 1.6;
 }
 
 .scroll-indicator {
@@ -293,8 +378,17 @@ body {
 
   .value-strip {
     flex-wrap: wrap;
-    gap: 1.8rem 2.4rem;
-    padding: 2.2rem 1.5rem 2.6rem;
+    gap: 2rem 3rem;
+    padding: 2.6rem 1.5rem 3rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .feature-section {
+    padding-top: 3.2rem;
   }
 }
 

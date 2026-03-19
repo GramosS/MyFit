@@ -1,18 +1,25 @@
+import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
 
-export function requireAuth(req, res, next) {
+type JwtPayload = {
+  sub?: string;
+};
+
+export const requireAuth: RequestHandler = (req, res, next) => {
   const header = req.headers.authorization;
   const token = header?.startsWith("Bearer ") ? header.slice("Bearer ".length) : null;
 
   if (!token) return res.status(401).json({ error: "Missing token" });
 
   try {
-    const payload = jwt.verify(token, env.jwtSecret);
+    const payload = jwt.verify(token, env.jwtSecret) as JwtPayload;
+    if (!payload.sub) return res.status(401).json({ error: "Invalid token" });
+
     req.user = { id: payload.sub };
     next();
   } catch {
     return res.status(401).json({ error: "Invalid token" });
   }
-}
+};
 

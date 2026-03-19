@@ -3,7 +3,7 @@ import { connectDb } from "./config/db.js";
 import { createApp } from "./app.js";
 
 async function main() {
-  await connectDb(env.mongodbUri);
+  await connectDb();
   const app = createApp();
 
   app.listen(env.port, () => {

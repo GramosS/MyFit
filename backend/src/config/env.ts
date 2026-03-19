@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-function requireEnv(name) {
+function requireEnv(name: string): string {
   const value = process.env[name];
   if (!value) throw new Error(`Missing env var: ${name}`);
   return value;
@@ -10,9 +10,9 @@ function requireEnv(name) {
 
 export const env = {
   port: Number(process.env.PORT ?? 5000),
-  mongodbUri: requireEnv("MONGODB_URI"),
+  databasePath: process.env.DATABASE_PATH ?? "./data/myfit.db",
   jwtSecret: requireEnv("JWT_SECRET"),
-  clientOrigin: process.env.CLIENT_ORIGIN ?? "http://127.0.0.1:5500",
+  clientOrigin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173",
   nodeEnv: process.env.NODE_ENV ?? "development",
 };
 

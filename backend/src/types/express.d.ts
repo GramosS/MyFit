@@ -1,3 +1,4 @@
+// Utökar Express Request med `user` efter lyckad JWT-verifiering.
 import "express";
 
 declare module "express-serve-static-core" {
@@ -5,4 +6,3 @@ declare module "express-serve-static-core" {
     user?: { id: string };
   }
 }
-

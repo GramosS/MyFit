@@ -1,3 +1,5 @@
+// JWT lagras i localStorage.
+// Samma token läses av dashboard och API.
 const TOKEN_KEY = "myfit_token";
 
 export function getToken(): string | null {
@@ -11,4 +13,3 @@ export function setToken(token: string) {
 export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
-

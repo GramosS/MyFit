@@ -89,7 +89,12 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section className="feature-section" ref={(el) => (firstFeatureRef.current = el)}>
+        <section
+          className="feature-section"
+          ref={(el) => {
+            firstFeatureRef.current = el;
+          }}
+        >
           <header className="feature-header">
             <h2>
               Allt du behöver. <span className="highlight">Inget du inte behöver.</span>

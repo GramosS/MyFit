@@ -1,3 +1,4 @@
+// Router omsluter appen så sidor kan använda länkar och hooks.
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

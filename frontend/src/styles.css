@@ -530,6 +530,8 @@ body {
   gap: 0.5rem;
   cursor: pointer;
   font-size: 0.9rem;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 .dashboard-menu-item:hover {
@@ -682,6 +684,502 @@ body {
   padding: 1rem;
 }
 
+.dashboard-banner-error {
+  margin: 0 0 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+  font-size: 0.9rem;
+}
+
+.dashboard-panel-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  place-items: stretch;
+}
+
+.dashboard-sparkline {
+  width: 100%;
+  height: 120px;
+  display: block;
+}
+
+.dashboard-chart-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.dashboard-chart-empty {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.dashboard-panel-bars {
+  width: 100%;
+  place-items: stretch;
+}
+
+.dashboard-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.45rem;
+  height: 200px;
+  padding: 0.5rem 0.25rem 0;
+  width: 100%;
+}
+
+.dashboard-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 0;
+}
+
+.dashboard-bar-fill {
+  width: 100%;
+  max-width: 32px;
+  min-height: 3px;
+  background: linear-gradient(180deg, #84cc16, #4d7c0f);
+  border-radius: 6px 6px 2px 2px;
+  transition: height 0.25s ease;
+}
+
+.dashboard-bar-label {
+  margin-top: 0.35rem;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  text-transform: capitalize;
+}
+
+/* Modaler */
+.dashboard-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.65);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.dashboard-modal {
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 16px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.dashboard-modal h2 {
+  margin: 0 0 1rem;
+  color: #bef264;
+  font-size: 1.25rem;
+}
+
+.dashboard-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.dashboard-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.dashboard-field span {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.dashboard-field input,
+.dashboard-field select {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #111827;
+  color: #e2e8f0;
+}
+
+.dashboard-field-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  text-align: left;
+}
+
+.dashboard-exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-exercise-row {
+  display: grid;
+  grid-template-columns: 1fr 0.55fr 0.45fr 0.45fr auto;
+  gap: 0.35rem;
+}
+
+.dashboard-exercise-row input {
+  padding: 0.5rem 0.45rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #111827;
+  color: #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.dashboard-exercise-remove {
+  align-self: center;
+  white-space: nowrap;
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  background: rgba(248, 113, 113, 0.08);
+  color: #fecaca;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.dashboard-exercise-remove:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dashboard-modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
+.dashboard-modal-primary {
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: #84cc16;
+  color: #0b1324;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dashboard-modal-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard-modal-secondary {
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: transparent;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.dashboard-modal-error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.dashboard-modal-wide {
+  max-width: 520px;
+}
+
+.dashboard-modal-hint {
+  margin: -0.35rem 0 0.85rem;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.dashboard-food-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-food-checkbox,
+.dashboard-field-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+}
+
+.dashboard-food-checkbox input,
+.dashboard-field-inline input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.dashboard-food-search-status {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.dashboard-food-hits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  background: #111827;
+}
+
+.dashboard-food-hit-btn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 0.15rem 0.75rem;
+  padding: 0.55rem 0.65rem;
+  border: none;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: transparent;
+  color: #e2e8f0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+
+.dashboard-food-hit-btn:hover {
+  background: rgba(132, 204, 22, 0.08);
+}
+
+.dashboard-food-hits li:last-child .dashboard-food-hit-btn {
+  border-bottom: none;
+}
+
+.dashboard-food-hit-name {
+  grid-column: 1;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.dashboard-food-hit-brand {
+  grid-column: 1;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.dashboard-food-hit-macros {
+  grid-column: 1;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+.dashboard-food-hit-kcal {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  font-size: 0.72rem;
+  color: #84cc16;
+  white-space: nowrap;
+}
+
+.dashboard-food-macros {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  text-align: left;
+}
+
+.dashboard-food-macros-title {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 0.35rem;
+}
+
+.dashboard-food-macros-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.dashboard-food-macros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.dashboard-food-macro-label {
+  display: block;
+  font-size: 0.68rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+}
+
+.dashboard-food-macro-val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.dashboard-food-macros-ref {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.dashboard-food-selected {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(132, 204, 22, 0.1);
+  border: 1px solid rgba(132, 204, 22, 0.25);
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.dashboard-food-clear {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+}
+
+.dashboard-meal-builder-label {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  text-align: left;
+}
+
+.dashboard-meal-pending {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  text-align: left;
+}
+
+.dashboard-meal-pending-title {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 0.45rem;
+}
+
+.dashboard-meal-pending-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.dashboard-meal-pending-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  font-size: 0.88rem;
+}
+
+.dashboard-meal-pending-list li:last-child .dashboard-meal-pending-item {
+  border-bottom: none;
+}
+
+.dashboard-meal-pending-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.65rem;
+  min-width: 0;
+}
+
+.dashboard-meal-pending-kcal {
+  color: #84cc16;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.dashboard-meal-pending-remove {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.dashboard-meal-pending-remove:hover {
+  background: rgba(248, 113, 113, 0.28);
+}
+
+.dashboard-meal-pending-sum {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+}
+
+.dashboard-meal-add-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.dashboard-meal-add-hint {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 520px) {
+  .dashboard-exercise-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     padding-top: 4.2rem;
@@ -749,6 +1247,420 @@ body {
 
   .dashboard-logout {
     margin-top: 0.5rem;
+  }
+}
+
+/* Dashboard undersidor (Träning / Kost / Livsstil) */
+.dashboard-page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.dashboard-page-head h1 {
+  margin: 0;
+  color: #84cc16;
+  font-size: 2rem;
+  line-height: 1.1;
+  text-shadow: 0 0 24px rgba(132, 204, 22, 0.35);
+}
+
+.dashboard-page-sub {
+  margin: 0.35rem 0 0;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.dashboard-head-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem 1.1rem;
+  background: #84cc16;
+  color: #0b1324;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dashboard-head-btn:hover {
+  filter: brightness(1.06);
+}
+
+.dashboard-section-card {
+  background: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.dashboard-section-card-title {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  font-weight: 600;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.dashboard-section-card-body {
+  padding: 1rem;
+}
+
+.dashboard-muted {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.dashboard-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-pill {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #0f172a;
+  color: #cbd5e1;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.dashboard-pill.is-active {
+  border-color: rgba(132, 204, 22, 0.55);
+  background: rgba(101, 163, 13, 0.2);
+  color: #bef264;
+}
+
+.dashboard-progress-chart {
+  min-height: 120px;
+}
+
+.dashboard-history-title {
+  margin: 1.25rem 0 0.65rem;
+  font-size: 1.05rem;
+  color: #e5e7eb;
+}
+
+.dashboard-history-empty {
+  margin-top: 0.5rem;
+}
+
+.training-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.training-history-item {
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 12px;
+  background: #111827;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+.training-history-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.85rem;
+}
+
+.training-chevron {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.2rem;
+  font-size: 0.75rem;
+}
+
+.training-history-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.training-history-main strong {
+  color: #f1f5f9;
+}
+
+.training-history-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.training-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.training-icon-btn.is-danger {
+  filter: hue-rotate(-40deg);
+}
+
+.training-exercise-list {
+  margin: 0;
+  padding: 0.5rem 1rem 0.85rem 2.5rem;
+  list-style: disc;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+/* Kost */
+.dashboard-goal-card {
+  padding: 1rem 1.1rem;
+}
+
+.dashboard-goal-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-goal-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #e5e7eb;
+  font-weight: 600;
+}
+
+.dashboard-goal-flame {
+  font-size: 1.1rem;
+}
+
+.dashboard-goal-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dashboard-goal-input {
+  width: 5.5rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.dashboard-goal-suffix {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.dashboard-progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #0f172a;
+  margin-top: 0.85rem;
+  overflow: hidden;
+}
+
+.dashboard-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #65a30d, #84cc16);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.dashboard-progress-text {
+  margin: 0.45rem 0 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.dashboard-nutrition-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.dashboard-sparkline--wide {
+  height: 140px;
+}
+
+.dashboard-axis-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.15rem;
+  padding: 0 0.15rem;
+}
+
+.dashboard-axis-tick {
+  font-size: 0.62rem;
+  color: #64748b;
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meal-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.meal-history-item {
+  display: grid;
+  grid-template-columns: 7rem 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.meal-history-date {
+  color: #94a3b8;
+}
+
+.meal-history-type {
+  text-transform: capitalize;
+  color: #e5e7eb;
+}
+
+.meal-history-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.meal-history-food {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meal-history-cal {
+  color: #84cc16;
+  font-weight: 600;
+}
+
+/* Livsstil */
+.lifestyle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.lifestyle-card .dashboard-section-card-title {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.lifestyle-form {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lifestyle-form .dashboard-field textarea {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #0f172a;
+  color: #e2e8f0;
+  resize: vertical;
+  min-height: 88px;
+  font-family: inherit;
+}
+
+.dashboard-lifestyle-submit {
+  margin-top: 0.25rem;
+  width: 100%;
+  padding: 0.65rem;
+  border: none;
+  border-radius: 10px;
+  background: #84cc16;
+  color: #0b1324;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dashboard-lifestyle-submit-secondary {
+  margin-top: 0.25rem;
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  background: #1e293b;
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.lifestyle-wide {
+  margin-bottom: 1rem;
+}
+
+.notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notes-item {
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  margin-bottom: 0.45rem;
+}
+
+.notes-date {
+  font-size: 0.78rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.notes-item p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+a.dashboard-action-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .lifestyle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-history-item {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
   }
 }
 

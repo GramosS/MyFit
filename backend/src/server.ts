@@ -1,3 +1,5 @@
+// Entrépunkt.
+// Laddar env, skapar databas, bygger Express-app och lyssnar på PORT.
 import { env } from "./config/env.js";
 import { connectDb } from "./config/db.js";
 import { createApp } from "./app.js";

@@ -1,3 +1,4 @@
+// Viktlogg: lista och ny post.
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth.js";
 import { createWeightLog, getWeightLogs } from "../controllers/weightController.js";
@@ -8,4 +9,3 @@ weightRoutes.use(requireAuth);
 
 weightRoutes.get("/", getWeightLogs);
 weightRoutes.post("/", createWeightLog);
-

@@ -1,3 +1,5 @@
+// Registrering och inloggning.
+// Lösenord hash:as med bcrypt. JWT skickas till klienten (sub = användar-id).
 import type { RequestHandler } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -16,6 +18,7 @@ const loginSchema = z.object({
   password: z.string().min(8).max(200),
 });
 
+// Kortlivad token. Samma sub som requireAuth läser i andra controllers.
 function signToken(userId: string) {
   return jwt.sign({}, env.jwtSecret, { subject: userId, expiresIn: "7d" });
 }
@@ -60,6 +63,7 @@ export const login: RequestHandler = async (req, res, next) => {
     const user = db
       .prepare("SELECT id, name, email, password_hash FROM users WHERE email = ?")
       .get(body.email) as UserRow | undefined;
+    // Samma meddelande om e-post eller lösenord är fel.
     if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
     const ok = await bcrypt.compare(body.password, user.password_hash);
@@ -75,4 +79,3 @@ export const login: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-

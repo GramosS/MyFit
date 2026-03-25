@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+// Inloggning: sparar JWT och går till dashboard.
+import { type FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { postJson } from "../lib/api";
 import { setToken } from "../lib/auth";
@@ -23,6 +24,7 @@ export function LoginPage() {
     };
 
     try {
+      // Samma token-flöde som register
       const data = await postJson<AuthResponse>("/auth/login", payload);
       setToken(data.token);
       navigate("/dashboard", { replace: true });

@@ -1,6 +1,9 @@
+// Träningspass med övningar.
+// Skapa/uppdatera kör transaktion: pass först, sedan övningar.
 import type { RequestHandler } from "express";
 import { z } from "zod";
 import { getDb } from "../config/db.js";
+import { parseUserId } from "../utils/parseUserId.js";
 
 const exerciseSchema = z.object({
   name: z.string().min(1).max(120),
@@ -38,12 +41,7 @@ type ExerciseRow = {
   reps: number;
 };
 
-function parseUserId(reqUserId?: string) {
-  const id = Number(reqUserId);
-  if (!Number.isInteger(id) || id <= 0) throw new Error("Invalid user id");
-  return id;
-}
-
+// API-svar: id som strängar (enklare i JSON/TypeScript).
 function mapWorkout(workout: WorkoutRow, exercises: ExerciseRow[]) {
   return {
     id: String(workout.id),
@@ -69,6 +67,7 @@ export const getWorkouts: RequestHandler = (req, res, next) => {
       .prepare("SELECT id, user_id, title, date, created_at FROM workouts WHERE user_id = ? ORDER BY date DESC, id DESC")
       .all(userId) as WorkoutRow[];
 
+    // En prepared statement återanvänds per workout (effektivt för många pass)
     const getExercises = db
       .prepare("SELECT id, workout_id, name, weight, sets, reps FROM workout_exercises WHERE workout_id = ? ORDER BY id ASC");
 
@@ -144,6 +143,7 @@ export const updateWorkout: RequestHandler = (req, res, next) => {
         workoutId,
         userId
       );
+      // Ersätt övningslista helt (enklare än diff per rad i detta projekt)
       db.prepare("DELETE FROM workout_exercises WHERE workout_id = ?").run(workoutId);
       const insertExercise = db.prepare(
         "INSERT INTO workout_exercises (workout_id, name, weight, sets, reps) VALUES (?, ?, ?, ?, ?)"

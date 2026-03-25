@@ -1,17 +1,14 @@
+// Viktloggar per användare.
+// Varje POST skapar en ny rad, så historik kan visas i diagram.
 import type { RequestHandler } from "express";
 import { z } from "zod";
 import { getDb } from "../config/db.js";
+import { parseUserId } from "../utils/parseUserId.js";
 
 const createWeightSchema = z.object({
   weight: z.number().positive().max(500),
   date: z.string().min(8).max(30),
 });
-
-function parseUserId(reqUserId?: string) {
-  const id = Number(reqUserId);
-  if (!Number.isInteger(id) || id <= 0) throw new Error("Invalid user id");
-  return id;
-}
 
 type WeightRow = {
   id: number;
@@ -21,6 +18,7 @@ type WeightRow = {
   created_at: string;
 };
 
+// Mappar DB-kolumner (snake_case) till API (camelCase).
 function mapWeight(row: WeightRow) {
   return {
     id: String(row.id),
@@ -64,4 +62,3 @@ export const createWeightLog: RequestHandler = (req, res, next) => {
     next(err);
   }
 };
-

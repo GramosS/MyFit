@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+// Ny användare: register, sparar JWT och går till dashboard.
+import { type FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { postJson } from "../lib/api";
 import { setToken } from "../lib/auth";
@@ -11,6 +12,7 @@ export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    // FormData → JSON; validering sker även på servern (Zod)
     e.preventDefault();
     setError("");
     setIsLoading(true);

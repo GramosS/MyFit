@@ -1,3 +1,6 @@
+// SQLite via better-sqlite3.
+// Skapar fil, kör schema och enkla migrationer.
+// All data kopplas till `user_id`.
 import fs from "node:fs";
 import path from "node:path";
 import Database from "better-sqlite3";
@@ -5,6 +8,8 @@ import { env } from "./env.js";
 
 let db: Database.Database | null = null;
 
+// Skapar tabeller om de saknas.
+// PRAGMA foreign_keys behövs för ON DELETE CASCADE.
 function initSchema(connection: Database.Database) {
   connection.exec(`
     PRAGMA foreign_keys = ON;
@@ -42,6 +47,7 @@ function initSchema(connection: Database.Database) {
       meal_type TEXT NOT NULL,
       calories INTEGER NOT NULL,
       date TEXT NOT NULL,
+      food_label TEXT,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     );
@@ -54,7 +60,26 @@ function initSchema(connection: Database.Database) {
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS notes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      date TEXT NOT NULL,
+      content TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    );
   `);
+  migrateMeals(connection);
+}
+
+// Migration för äldre databaser.
+// Lägg till `food_label` utan att tappa data.
+function migrateMeals(connection: Database.Database) {
+  const cols = connection.prepare("PRAGMA table_info(meals)").all() as { name: string }[];
+  if (!cols.some((c) => c.name === "food_label")) {
+    connection.exec("ALTER TABLE meals ADD COLUMN food_label TEXT");
+  }
 }
 
 export async function connectDb() {
@@ -70,4 +95,3 @@ export function getDb() {
   }
   return db;
 }
-

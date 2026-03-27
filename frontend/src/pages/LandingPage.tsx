@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../lib/auth";
 
 export function LandingPage() {
   const navigate = useNavigate();
   const firstFeatureRef = useRef<HTMLElement | null>(null);
+  const hasToken = Boolean(getToken());
 
   useEffect(() => {
     const revealEls = Array.from(document.querySelectorAll<HTMLElement>(".js-reveal"));
@@ -52,8 +54,8 @@ export function LandingPage() {
               din webbläsare.
             </p>
             <div className="hero-actions">
-              <button className="cta-button primary" onClick={() => navigate("/register")}>
-                Kom igång
+              <button className="cta-button primary" onClick={() => navigate(hasToken ? "/dashboard" : "/register")}>
+                {hasToken ? "Till dashboard" : "Kom igång"}
               </button>
               <button
                 className="cta-button secondary"

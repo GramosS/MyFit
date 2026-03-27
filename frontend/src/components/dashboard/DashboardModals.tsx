@@ -5,7 +5,7 @@ import { getJson, postJsonAuth, putJsonAuth } from "../../lib/api";
 import type { WorkoutExercise, WorkoutItem } from "../../types/dashboard";
 
 // Modal: skapa nytt pass eller redigera (PUT /workouts/:id).
-type WorkoutTemplateKey = "custom" | "chest";
+type WorkoutTemplateKey = "custom" | "chest" | "back";
 
 const CHEST_TEMPLATE = {
   key: "chest" as const,
@@ -37,6 +37,42 @@ const CHEST_TEMPLATE = {
   ] as WorkoutExercise[],
 } satisfies {
   key: "chest";
+  label: string;
+  title: string;
+  defaultExercises: WorkoutExercise[];
+  suggestions: WorkoutExercise[];
+};
+
+const BACK_TEMPLATE = {
+  key: "back" as const,
+  label: "Rygg",
+  title: "Ryggpass",
+  // Standardövningar för rygg.
+  defaultExercises: [
+    { name: "Marklyft", weight: 0, sets: 4, reps: 6 },
+    { name: "Latsdrag", weight: 0, sets: 4, reps: 10 },
+    { name: "Skivstångsrodd", weight: 0, sets: 4, reps: 8 },
+    { name: "Sittande kabelrodd", weight: 0, sets: 3, reps: 12 },
+    { name: "Face pulls", weight: 0, sets: 3, reps: 15 },
+    { name: "Ryggresningar", weight: 0, sets: 3, reps: 12 },
+  ] as WorkoutExercise[],
+  // Fler ryggförslag.
+  suggestions: [
+    { name: "Pull-ups", weight: 0, sets: 4, reps: 8 },
+    { name: "Chins", weight: 0, sets: 4, reps: 8 },
+    { name: "T-bar row", weight: 0, sets: 4, reps: 10 },
+    { name: "Enarms hantelrodd", weight: 0, sets: 3, reps: 12 },
+    { name: "Machine row", weight: 0, sets: 3, reps: 10 },
+    { name: "Straight-arm pulldown", weight: 0, sets: 3, reps: 12 },
+    { name: "Latsdrag (smalt grepp)", weight: 0, sets: 3, reps: 10 },
+    { name: "Latsdrag (brett grepp)", weight: 0, sets: 3, reps: 10 },
+    { name: "Seal row", weight: 0, sets: 3, reps: 10 },
+    { name: "Inverterad rodd", weight: 0, sets: 3, reps: 12 },
+    { name: "Shrugs", weight: 0, sets: 3, reps: 12 },
+    { name: "Rack pulls", weight: 0, sets: 4, reps: 6 },
+  ] as WorkoutExercise[],
+} satisfies {
+  key: "back";
   label: string;
   title: string;
   defaultExercises: WorkoutExercise[];
@@ -108,8 +144,9 @@ export function WorkoutModalForm({
   function applyTemplate(next: WorkoutTemplateKey) {
     setTemplate(next);
     setSubmitError(null);
-    if (next === "chest") {
-      setTitle(CHEST_TEMPLATE.title);
+    if (next === "chest" || next === "back") {
+      const tpl = next === "chest" ? CHEST_TEMPLATE : BACK_TEMPLATE;
+      setTitle(tpl.title);
       // Visa inte förifyllda övningar direkt.
       // Fyll dem stegvis när användaren klickar på förslag.
       setExercises([{ name: "", weight: 0, sets: 3, reps: 10 }]);
@@ -141,6 +178,8 @@ export function WorkoutModalForm({
   function removeExerciseAt(index: number) {
     setExercises((prev) => prev.filter((_, i) => i !== index));
   }
+
+  const activeTemplate = template === "chest" ? CHEST_TEMPLATE : template === "back" ? BACK_TEMPLATE : null;
 
   // Skickar övningar till API.
   // Tomma rader filtreras bort.
@@ -198,14 +237,15 @@ export function WorkoutModalForm({
             >
               <option value="custom">Manuellt</option>
               <option value="chest">Bröst</option>
+              <option value="back">Rygg</option>
             </select>
           </label>
 
-          {template === "chest" ? (
+          {activeTemplate ? (
             <div className="dashboard-exercises">
               <span className="dashboard-field-label">Förslag</span>
               <div className="dashboard-pill-row">
-                {CHEST_TEMPLATE.suggestions.map((ex) => {
+                {activeTemplate.suggestions.map((ex) => {
                   const exists = exercises.some((p) => p.name === ex.name);
                   return (
                     <button

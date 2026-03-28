@@ -5,7 +5,7 @@ import { getJson, postJsonAuth, putJsonAuth } from "../../lib/api";
 import type { WorkoutExercise, WorkoutItem } from "../../types/dashboard";
 
 // Modal: skapa nytt pass eller redigera (PUT /workouts/:id).
-type WorkoutTemplateKey = "custom" | "chest" | "back";
+type WorkoutTemplateKey = "custom" | "chest" | "back" | "shoulders" | "legs" | "arms";
 
 const CHEST_TEMPLATE = {
   key: "chest" as const,
@@ -79,6 +79,116 @@ const BACK_TEMPLATE = {
   suggestions: WorkoutExercise[];
 };
 
+const SHOULDERS_TEMPLATE = {
+  key: "shoulders" as const,
+  label: "Axlar",
+  title: "Axelpass",
+  defaultExercises: [
+    { name: "Militärpress", weight: 0, sets: 4, reps: 8 },
+    { name: "Sidolyft", weight: 0, sets: 3, reps: 12 },
+    { name: "Bakre axlar (hantel)", weight: 0, sets: 3, reps: 12 },
+    { name: "Arnoldpress", weight: 0, sets: 3, reps: 10 },
+    { name: "Face pulls", weight: 0, sets: 3, reps: 15 },
+  ] as WorkoutExercise[],
+  suggestions: [
+    { name: "Smith militärpress", weight: 0, sets: 4, reps: 8 },
+    { name: "Sittande hantelpress", weight: 0, sets: 3, reps: 10 },
+    { name: "Kabel sidolyft", weight: 0, sets: 3, reps: 15 },
+    { name: "Upright row", weight: 0, sets: 3, reps: 10 },
+    { name: "Bakre axlar (kabel)", weight: 0, sets: 3, reps: 12 },
+    { name: "Bakre axlar (maskin)", weight: 0, sets: 3, reps: 12 },
+    { name: "Frontlyft", weight: 0, sets: 3, reps: 12 },
+    { name: "Landmine press", weight: 0, sets: 3, reps: 10 },
+    { name: "Shrugs", weight: 0, sets: 3, reps: 12 },
+    { name: "Plate front raise", weight: 0, sets: 3, reps: 12 },
+    { name: "Y-raise", weight: 0, sets: 3, reps: 12 },
+    { name: "Reverse pec deck", weight: 0, sets: 3, reps: 12 },
+  ] as WorkoutExercise[],
+} satisfies {
+  key: "shoulders";
+  label: string;
+  title: string;
+  defaultExercises: WorkoutExercise[];
+  suggestions: WorkoutExercise[];
+};
+
+const LEGS_TEMPLATE = {
+  key: "legs" as const,
+  label: "Ben",
+  title: "Benpass",
+  defaultExercises: [
+    { name: "Knäböj", weight: 0, sets: 4, reps: 8 },
+    { name: "Benspark", weight: 0, sets: 4, reps: 10 },
+    { name: "Rumänsk marklyft", weight: 0, sets: 3, reps: 10 },
+    { name: "Leg curl", weight: 0, sets: 3, reps: 12 },
+    { name: "Vadpress", weight: 0, sets: 4, reps: 12 },
+  ] as WorkoutExercise[],
+  suggestions: [
+    { name: "Frontböj", weight: 0, sets: 4, reps: 8 },
+    { name: "Hack squat", weight: 0, sets: 4, reps: 10 },
+    { name: "Leg extension", weight: 0, sets: 3, reps: 15 },
+    { name: "Utfall", weight: 0, sets: 3, reps: 10 },
+    { name: "Bulgarian split squat", weight: 0, sets: 3, reps: 10 },
+    { name: "Glute bridge", weight: 0, sets: 3, reps: 12 },
+    { name: "Hip thrust", weight: 0, sets: 4, reps: 8 },
+    { name: "Goblet squat", weight: 0, sets: 3, reps: 12 },
+    { name: "Sissy squat", weight: 0, sets: 3, reps: 12 },
+    { name: "Adduktion (maskin)", weight: 0, sets: 3, reps: 15 },
+    { name: "Abduktion (maskin)", weight: 0, sets: 3, reps: 15 },
+    { name: "Stående vadpress", weight: 0, sets: 4, reps: 12 },
+    { name: "Sittande vadpress", weight: 0, sets: 4, reps: 12 },
+  ] as WorkoutExercise[],
+} satisfies {
+  key: "legs";
+  label: string;
+  title: string;
+  defaultExercises: WorkoutExercise[];
+  suggestions: WorkoutExercise[];
+};
+
+const ARMS_TEMPLATE = {
+  key: "arms" as const,
+  label: "Biceps / triceps",
+  title: "Armpass",
+  defaultExercises: [
+    { name: "Stående skivstångscurl", weight: 0, sets: 4, reps: 10 },
+    { name: "Hammercurl", weight: 0, sets: 3, reps: 12 },
+    { name: "Triceps pushdown (rep)", weight: 0, sets: 4, reps: 12 },
+    { name: "Överhuvud extension (rep)", weight: 0, sets: 3, reps: 12 },
+    { name: "Franskpress", weight: 0, sets: 3, reps: 10 },
+  ] as WorkoutExercise[],
+  suggestions: [
+    { name: "Hantelcurl (växlande)", weight: 0, sets: 3, reps: 12 },
+    { name: "Preachercurl", weight: 0, sets: 3, reps: 10 },
+    { name: "Kabelcurl", weight: 0, sets: 3, reps: 12 },
+    { name: "Koncentrationscurl", weight: 0, sets: 3, reps: 12 },
+    { name: "Spider curl", weight: 0, sets: 3, reps: 10 },
+    { name: "Incline hantelcurl", weight: 0, sets: 3, reps: 10 },
+    { name: "Triceps pushdown (rep)", weight: 0, sets: 4, reps: 12 },
+    { name: "Triceps pushdown (snöre)", weight: 0, sets: 3, reps: 15 },
+    { name: "Dips (triceps)", weight: 0, sets: 3, reps: 10 },
+    { name: "Nära bänkpress", weight: 0, sets: 4, reps: 8 },
+    { name: "Triceps kickback", weight: 0, sets: 3, reps: 12 },
+    { name: "Överhuvud rep-extension", weight: 0, sets: 3, reps: 12 },
+    { name: "Kabel över huvudet", weight: 0, sets: 3, reps: 12 },
+    { name: "JM press", weight: 0, sets: 3, reps: 8 },
+  ] as WorkoutExercise[],
+} satisfies {
+  key: "arms";
+  label: string;
+  title: string;
+  defaultExercises: WorkoutExercise[];
+  suggestions: WorkoutExercise[];
+};
+
+const WORKOUT_TEMPLATES = {
+  chest: CHEST_TEMPLATE,
+  back: BACK_TEMPLATE,
+  shoulders: SHOULDERS_TEMPLATE,
+  legs: LEGS_TEMPLATE,
+  arms: ARMS_TEMPLATE,
+} as const;
+
 export function WorkoutModalForm({
   token,
   defaultDate,
@@ -144,8 +254,8 @@ export function WorkoutModalForm({
   function applyTemplate(next: WorkoutTemplateKey) {
     setTemplate(next);
     setSubmitError(null);
-    if (next === "chest" || next === "back") {
-      const tpl = next === "chest" ? CHEST_TEMPLATE : BACK_TEMPLATE;
+    if (next !== "custom") {
+      const tpl = WORKOUT_TEMPLATES[next];
       setTitle(tpl.title);
       // Visa inte förifyllda övningar direkt.
       // Fyll dem stegvis när användaren klickar på förslag.
@@ -179,7 +289,7 @@ export function WorkoutModalForm({
     setExercises((prev) => prev.filter((_, i) => i !== index));
   }
 
-  const activeTemplate = template === "chest" ? CHEST_TEMPLATE : template === "back" ? BACK_TEMPLATE : null;
+  const activeTemplate = template !== "custom" ? WORKOUT_TEMPLATES[template] : null;
 
   // Skickar övningar till API.
   // Tomma rader filtreras bort.
@@ -238,6 +348,9 @@ export function WorkoutModalForm({
               <option value="custom">Manuellt</option>
               <option value="chest">Bröst</option>
               <option value="back">Rygg</option>
+              <option value="shoulders">Axlar</option>
+              <option value="legs">Ben</option>
+              <option value="arms">Biceps / triceps</option>
             </select>
           </label>
 

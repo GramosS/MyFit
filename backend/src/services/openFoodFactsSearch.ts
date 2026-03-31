@@ -2,7 +2,8 @@
 // Hämtar data, hanterar timeout och mappar till vårt format.
 import { HttpError } from "../utils/httpError.js";
 
-const OFF_SEARCH = "https://world.openfoodfacts.org/cgi/search.pl";
+// .org svarar ofta 503 (HTML) medan .net (samma API) fungerar — se OFF drift/mirrors.
+const OFF_SEARCH = "https://world.openfoodfacts.net/cgi/search.pl";
 const SEARCH_MAX_LEN = 200;
 const OFF_TIMEOUT_MS = 12_000;
 const RESULT_LIMIT = 25;
@@ -174,14 +175,26 @@ export async function searchOpenFoodFacts(rawQuery: string, swedishOnly: boolean
     throw err;
   }
 
+  const contentType = (r.headers.get("content-type") || "").toLowerCase();
+  const text = await r.text();
+  const looksLikeHtml =
+    contentType.includes("text/html") || /^\s*</.test(text) || text.trimStart().toLowerCase().startsWith("<!doctype");
+
   if (!r.ok) {
+    if (r.status === 503 || r.status === 502 || r.status === 504 || looksLikeHtml) {
+      throw new HttpError(503, "Open Food Facts svarar inte just nu – försök igen om en stund");
+    }
     throw new HttpError(502, "Kunde inte nå livsmedelsdatabasen just nu");
   }
 
   let data: OffSearchJson;
   try {
-    data = (await r.json()) as OffSearchJson;
-  } catch {
+    if (looksLikeHtml) {
+      throw new HttpError(503, "Open Food Facts svarar inte just nu – försök igen om en stund");
+    }
+    data = JSON.parse(text) as OffSearchJson;
+  } catch (e) {
+    if (e instanceof HttpError) throw e;
     throw new HttpError(502, "Ogiltigt svar från livsmedelsdatabasen");
   }
 

@@ -1,5 +1,5 @@
 // Gemensam ram för inloggade vyer.
-// Sidomeny, utloggning och <Outlet /> för undersidor.
+// Toppmeny (tabs), utloggning och <Outlet /> för undersidor.
 // Saknar token → redirect till login.
 import { Link, NavLink, Outlet, Navigate, useNavigate } from "react-router-dom";
 import { clearToken, getToken } from "../lib/auth";
@@ -11,41 +11,44 @@ export function DashboardLayout() {
 
   return (
     <div className="dashboard-page">
-      <aside className="dashboard-sidebar">
-        <div className="dashboard-brand">FitTracker</div>
-        <nav className="dashboard-menu">
+      <header className="dashboard-topbar">
+        <div className="dashboard-topbar-left">
+          <span className="dashboard-brand">MyFit</span>
+        </div>
+
+        <nav className="dashboard-tabs" aria-label="Dashboard navigation">
           <NavLink to="/dashboard" end className={navClass}>
-            <span>▦</span> Dashboard
+            Dashboard
           </NavLink>
           <NavLink to="/dashboard/training" className={navClass}>
-            <span>🏋</span> Träning
+            Träning
           </NavLink>
           <NavLink to="/dashboard/nutrition" className={navClass}>
-            <span>🍽</span> Kost
+            Kost
           </NavLink>
           <NavLink to="/dashboard/lifestyle" className={navClass}>
-            <span>♡</span> Livsstil
+            Livsstil
           </NavLink>
         </nav>
-        <button
-          className="dashboard-logout"
-          type="button"
-          onClick={() => {
-            clearToken();
-            navigate("/", { replace: true });
-          }}
-        >
-          Logga ut
-        </button>
-      </aside>
+
+        <div className="dashboard-topbar-right">
+          <Link className="dashboard-home-link" to="/">
+            Startsida
+          </Link>
+          <button
+            className="dashboard-logout"
+            type="button"
+            onClick={() => {
+              clearToken();
+              navigate("/", { replace: true });
+            }}
+          >
+            Logga ut
+          </button>
+        </div>
+      </header>
 
       <main className="dashboard-main">
-        <header className="dashboard-topbar">
-          <p className="dashboard-topbar-title">Fitness Tracker</p>
-          <Link className="dashboard-home-link" to="/">
-            ⌂ Startsida
-          </Link>
-        </header>
         <Outlet />
       </main>
     </div>
@@ -53,5 +56,5 @@ export function DashboardLayout() {
 }
 
 function navClass({ isActive }: { isActive: boolean }) {
-  return "dashboard-menu-item" + (isActive ? " is-active" : "");
+  return "dashboard-tab" + (isActive ? " is-active" : "");
 }

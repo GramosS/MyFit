@@ -35,6 +35,7 @@ export function TrainingPage() {
   }, [token, navigate]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadWorkouts();
   }, [loadWorkouts]);
 
@@ -47,6 +48,7 @@ export function TrainingPage() {
   const [selectedExercise, setSelectedExercise] = useState("");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!selectedExercise && exerciseNames.length > 0) setSelectedExercise(exerciseNames[0]);
   }, [exerciseNames, selectedExercise]);
 

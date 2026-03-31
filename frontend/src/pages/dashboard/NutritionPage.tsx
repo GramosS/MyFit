@@ -42,6 +42,7 @@ export function NutritionPage() {
   }, [token, navigate]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadMeals();
   }, [loadMeals]);
 

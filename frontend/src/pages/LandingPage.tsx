@@ -38,6 +38,22 @@ export function LandingPage() {
         <a className="logo" href="/" onClick={(e) => (e.preventDefault(), navigate("/"))}>
           MyFit
         </a>
+        <nav className="top-nav-actions" aria-label="Konto">
+          {hasToken ? (
+            <button className="top-nav-link" type="button" onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </button>
+          ) : (
+            <>
+              <button className="top-nav-link" type="button" onClick={() => navigate("/login")}>
+                Logga in
+              </button>
+              <button className="top-nav-cta" type="button" onClick={() => navigate("/register")}>
+                Registrera
+              </button>
+            </>
+          )}
+        </nav>
       </header>
 
       <main>
@@ -57,37 +73,7 @@ export function LandingPage() {
               <button className="cta-button primary" onClick={() => navigate(hasToken ? "/dashboard" : "/register")}>
                 {hasToken ? "Till dashboard" : "Kom igång"}
               </button>
-              <button
-                className="cta-button secondary"
-                onClick={() => firstFeatureRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-              >
-                Utforska funktioner
-              </button>
             </div>
-            <div className="scroll-indicator" aria-hidden="true">
-              <div className="mouse">
-                <div className="wheel" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="value-strip">
-          <div className="value-item">
-            <span className="value-number">100%</span>
-            <span className="value-label">Gratis</span>
-          </div>
-          <div className="value-item">
-            <span className="value-number">0</span>
-            <span className="value-label">Inloggningar krävs</span>
-          </div>
-          <div className="value-item">
-            <span className="value-number">∞</span>
-            <span className="value-label">Lokal lagring</span>
-          </div>
-          <div className="value-item">
-            <span className="value-number">24/7</span>
-            <span className="value-label">Tillgänglig offline</span>
           </div>
         </section>
 
@@ -158,9 +144,6 @@ export function LandingPage() {
         </section>
       </main>
 
-      <footer className="page-footer">
-        <p>Proof of Concept · Fitness Tracker · 2026</p>
-      </footer>
     </>
   );
 }

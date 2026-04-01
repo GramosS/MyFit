@@ -29,7 +29,7 @@ frontend/src
 
 ```bash
 cd backend
-cp .env.example .env   # sätt JWT_SECRET, CLIENT_ORIGIN, DATABASE_PATH
+cp .env.example .env   # sätt JWT_SECRET, CLIENT_ORIGIN, DATABASE_PATH (+ ev. APP_BASE_URL/SMTP)
 npm install
 npm run dev
 ```
@@ -43,6 +43,20 @@ npm run dev
 ```
 
 Standard: API `http://localhost:5000`, frontend `http://localhost:5173` med `VITE_API_BASE=http://localhost:5000/api`.
+
+### Återställ lösenord (valfritt SMTP)
+
+- Backend använder `POST /api/auth/forgot-password` och `POST /api/auth/reset-password`.
+- För att länken i mejlet ska peka rätt, sätt `APP_BASE_URL` (t.ex. `http://localhost:5173`).
+- Om SMTP **inte** är konfigurerat loggas reset-länken i backend-konsolen (dev).
+
+Valfria SMTP-variabler:
+
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_FROM` (annars används `SMTP_USER`)
 
 ## Kost / livsmedelssök
 

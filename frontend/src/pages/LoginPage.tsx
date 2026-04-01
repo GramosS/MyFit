@@ -68,6 +68,10 @@ export function LoginPage() {
               />
             </label>
 
+            <Link className="auth-link" to="/forgot-password" style={{ alignSelf: "flex-end", fontSize: "0.85rem" }}>
+              Glömt lösenord?
+            </Link>
+
             <button className="cta-button primary auth-submit" type="submit" disabled={isLoading}>
               {isLoading ? "Loggar in..." : "Logga in"}
             </button>

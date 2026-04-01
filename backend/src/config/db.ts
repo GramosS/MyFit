@@ -22,6 +22,18 @@ function initSchema(connection: Database.Database) {
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token_hash TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
+      used_at TEXT,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    );
+    CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_token_hash ON password_reset_tokens (token_hash);
+    CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id ON password_reset_tokens (user_id);
+
     CREATE TABLE IF NOT EXISTS workouts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
@@ -71,6 +83,7 @@ function initSchema(connection: Database.Database) {
     );
   `);
   migrateMeals(connection);
+  migratePasswordResets(connection);
 }
 
 // Migration för äldre databaser.
@@ -80,6 +93,28 @@ function migrateMeals(connection: Database.Database) {
   if (!cols.some((c) => c.name === "food_label")) {
     connection.exec("ALTER TABLE meals ADD COLUMN food_label TEXT");
   }
+}
+
+// Migration för äldre databaser: skapa reset-tabell om saknas.
+function migratePasswordResets(connection: Database.Database) {
+  const row = connection
+    .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='password_reset_tokens'")
+    .get() as { name: string } | undefined;
+  if (row) return;
+
+  connection.exec(`
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token_hash TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
+      used_at TEXT,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    );
+    CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_token_hash ON password_reset_tokens (token_hash);
+    CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id ON password_reset_tokens (user_id);
+  `);
 }
 
 export async function connectDb() {

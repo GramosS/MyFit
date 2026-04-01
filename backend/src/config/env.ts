@@ -16,5 +16,15 @@ export const env = {
   jwtSecret: requireEnv("JWT_SECRET"),
   // Tillåten origin för CORS (frontend-URL).
   clientOrigin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173",
+  // Länkar i mejl (t.ex. återställ-länk).
+  appBaseUrl: process.env.APP_BASE_URL ?? process.env.CLIENT_ORIGIN ?? "http://localhost:5173",
+  // SMTP (valfritt): om saknas loggas reset-länk i backend-konsolen (dev).
+  smtp: {
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+    from: process.env.SMTP_FROM ?? process.env.SMTP_USER,
+  },
   nodeEnv: process.env.NODE_ENV ?? "development",
 };

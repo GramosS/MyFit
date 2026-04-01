@@ -70,7 +70,10 @@ export function LandingPage() {
               din webbläsare.
             </p>
             <div className="hero-actions">
-              <button className="cta-button primary" onClick={() => navigate(hasToken ? "/dashboard" : "/register")}>
+              <button
+                className="cta-button cta-button--no-arrow primary"
+                onClick={() => navigate(hasToken ? "/dashboard" : "/register")}
+              >
                 {hasToken ? "Till dashboard" : "Kom igång"}
               </button>
             </div>

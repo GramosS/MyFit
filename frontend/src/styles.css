@@ -377,6 +377,10 @@ body {
   font-size: 1.1rem;
 }
 
+.cta-button--no-arrow::after {
+  content: none;
+}
+
 .cta-button.primary {
   background: linear-gradient(
     135deg,
@@ -985,7 +989,7 @@ body {
 
 .dashboard-exercise-row {
   display: grid;
-  grid-template-columns: 1fr 0.55fr 0.45fr 0.45fr auto;
+  grid-template-columns: minmax(0, 1fr) repeat(3, minmax(0, 5.25rem)) auto;
   gap: 0.35rem;
 }
 
@@ -996,6 +1000,7 @@ body {
   background: #111827;
   color: #e2e8f0;
   font-size: 0.85rem;
+  min-width: 0;
 }
 
 .dashboard-exercise-remove {
@@ -1325,9 +1330,15 @@ body {
   line-height: 1.35;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .dashboard-exercise-row {
     grid-template-columns: 1fr 1fr;
+  }
+
+  /* Namn tar hela raden; resten får falla ner utan horisontell scroll */
+  .dashboard-exercise-row > input:nth-child(1),
+  .dashboard-exercise-row > button.dashboard-exercise-remove {
+    grid-column: 1 / -1;
   }
 }
 
